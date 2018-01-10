@@ -51,8 +51,12 @@ int N_value_in()
 	int N;
 	ifstream plik;
 	plik.open("n",ios_base::in);
-	plik >> N;
-	plik.close();
+	if(plik.good())
+	{
+		plik >> N;
+		plik.close();
+	}
+	else N=0;
 	return N;
 }
 
