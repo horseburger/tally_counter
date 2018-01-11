@@ -47,7 +47,7 @@ struct Data
 
 
 int N_value_in()							// Setting the N value from the config file
-{											// It is use to determine the size of the table
+{											// It is used to determine the size of the table
 	int N;
 	ifstream plik;
 	plik.open("n",ios_base::in);			
