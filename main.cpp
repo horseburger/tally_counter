@@ -45,6 +45,94 @@ struct Data
 	int tally;
 };
 
+int N_value_in();
+int N = N_value_in();
+void N_value_out(int a);
+vector<Data> read_from_file();
+void save(vector<Data> a);
+Data read();
+void wys(vector<Data> a);
+void del(vector<Data>& a,int i);
+void wipe(vector<Data> &a);
+void menu();
+
+
+
+int main()
+{
+	char c;
+	vector<Data> a;
+	a = read_from_file();
+	do
+	{
+		menu();
+		c=getch();
+		switch(c)
+		{
+		 	case '1':
+		 	{
+		 		cout << "\x1B[2J\x1B[H";
+		 		if(a.size()==0)
+		 		{
+		 			cout << "There's nothing to display.";
+		 			getch();
+		 		}
+		 		else 
+		 		{
+		 			wys(a);
+		 			getch();
+		 		}
+		 		break;
+		 	}
+		 	case '2':
+		 	{
+		 		cout << "\x1B[2J\x1B[H";
+		 		a.push_back(Data());
+		 		int i = a.size()-1;
+		 		a[i]=read();
+		 		N++;
+		 		break;
+		 	}
+		 	case '3':
+		 	{
+		 		cout << "\x1B[2J\x1B[H";								
+		 		wys(a);
+		 		int i;
+		 		cout << "Choose the number to add to: "; cin >> i;
+		 		cin.get();			// Resetting the input stream. If not done the EOL char will be passed to the next line
+		 		a[i-1].tally++;
+		 		break;
+		 	}
+		 	case '4':
+		 	{
+				cout << "\x1B[2J\x1B[H";
+		 		int i;
+		 		wys(a);
+		 		cout << "Which position would you like to delete? : "; cin >> i;
+		 		cin.get();
+		 		del(a,i);
+		 		N--;
+		 		break;
+		 	}
+		 	case '5':
+		 	{
+		 		cout << "\x1B[2J\x1B[H";
+		 		wipe(a);
+		 		break;
+		 	}
+		 	case '6':
+		 	{
+		 		N_value_out(N);
+		 		c='q';
+		 		break;
+		 	}
+		 }
+	}while(c!='q');
+	save(a);
+	cout << "\x1B[2J\x1B[H";
+	return 0;
+}
+
 
 int N_value_in()							// Setting the N value from the config file
 {											// It is used to determine the size of the table
@@ -59,8 +147,6 @@ int N_value_in()							// Setting the N value from the config file
 	else N=0;								// If no the the value is set by default to 0
 	return N;
 }
-
-int N = N_value_in();
 
 void N_value_out(int a)						// Saving the N value out to the config file
 {
@@ -104,7 +190,6 @@ Data read()
 	return a;
 }
 
-
 void wys(vector<Data> a)
 {
 	cout << "\x1B[2J\x1B[H";														// Clears the terminal window 
@@ -136,86 +221,10 @@ void wipe(vector<Data> &a)
 	getch();
 }
 
-void menu(vector<Data> &a)
+void menu()
 {
-	char c;
-	do
-	{
-		cout << "\x1B[2J\x1B[H";
-		cout << "       Menu       " << endl << setw(3) << "1. " << "Display" << endl << "2. " << "Add"
-			 << endl << "3. " << "Add to position " << endl << "4. " << "Delete position." << endl << "5. "
-			 << "Data wipe " << endl << "6. " << "Quit" << endl;
-		 c=getch();
-		 switch(c)
-		 {
-		 	case '1':
-		 	{
-		 		cout << "\x1B[2J\x1B[H";
-		 		if(a.size()==0)
-		 		{
-		 			cout << "There's nothing to display.";
-		 			getch();
-		 		}
-		 		else 
-		 		{
-		 			wys(a);
-		 			getch();
-		 		}
-		 		break;
-		 	}
-		 	case '2':
-		 	{
-		 		cout << "\x1B[2J\x1B[H";
-		 		a.push_back(Data());
-		 		int i = a.size()-1;
-		 		a[i]=read();
-		 		N++;
-		 		break;
-		 	}
-		 	case '3':
-		 	{
-		 		cout << "\x1B[2J\x1B[H";								
-		 		wys(a);
-		 		int i;
-		 		cout << "Choose the number to add to "; cin >> i;
-		 		cin.get();			// Resetting the input stream. If not done the EOL char will be passed to the next line
-		 		a[i-1].tally++;
-		 		break;
-		 	}
-		 	case '4':
-		 	{
-				cout << "\x1B[2J\x1B[H";
-		 		int i;
-		 		wys(a);
-		 		cout << "Which position would you like to delete? : "; cin >> i;
-		 		cin.get();
-		 		del(a,i);
-		 		N--;
-		 		break;
-		 	}
-		 	case '5':
-		 	{
-		 		cout << "\x1B[2J\x1B[H";
-		 		wipe(a);
-		 		break;
-		 	}
-		 	case '6':
-		 	{
-		 		N_value_out(N);
-		 		c='q';
-		 		break;
-		 	}
-		 }
-	}while(c!='q');
-}
-
-
-int main()
-{
-	vector<Data> a;
-	a = read_from_file();
-	menu(a);
-	save(a);
 	cout << "\x1B[2J\x1B[H";
-	return 0;
+	cout << "       Menu       " << endl << setw(3) << "1. " << "Display" << endl << "2. " << "Add"
+		 << endl << "3. " << "Add to position " << endl << "4. " << "Delete position." << endl << "5. "
+		 << "Data wipe " << endl << "6. " << "Quit" << endl;
 }
