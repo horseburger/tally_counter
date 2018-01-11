@@ -65,7 +65,7 @@ int N = N_value_in();
 void N_value_out(int a)						// Saving the N value out to the config file
 {
 	ofstream plik;
-	plik.open("n",ios_base::out);
+	plik.open("n.txt",ios_base::out);
 	plik << a;
 	plik.close();
 }
@@ -107,7 +107,7 @@ Data read()
 
 void wys(vector<Data> a)
 {
-	system("clear");
+	cout << "\x1B[2J\x1B[H";
 	for(int i=0;i<N;i++)
 	{
 		cout << setw(3) << i+1 << ". "<<  a[i].name << " " << a[i].tally << endl;
@@ -142,7 +142,7 @@ void menu(vector<Data> a)
 	do
 	{
 		a = read_from_file();
-		system("clear");
+		cout << "\x1B[2J\x1B[H";
 		cout << "       Menu       " << endl << setw(3) << "1. " << "Display" << endl << "2. " << "Add"
 			 << endl << "3. " << "Add to position " << endl << "4. " << "Delete position." << endl << "5. "
 			 << "Data wipe " << endl << "6. " << "Quit" << endl;
@@ -151,7 +151,7 @@ void menu(vector<Data> a)
 		 {
 		 	case '1':
 		 	{
-		 		system("clear");
+		 		cout << "\x1B[2J\x1B[H";
 		 		if(a.size()==0)
 		 		{
 		 			cout << "There's nothing to display.";
@@ -166,7 +166,7 @@ void menu(vector<Data> a)
 		 	}
 		 	case '2':
 		 	{
-		 		system("clear");
+		 		cout << "\x1B[2J\x1B[H";
 		 		a.push_back(Data());
 		 		int i = a.size()-1;
 		 		a[i]=read();
@@ -176,7 +176,7 @@ void menu(vector<Data> a)
 		 	}
 		 	case '3':
 		 	{
-		 		system("clear");								
+		 		cout << "\x1B[2J\x1B[H";								
 		 		wys(a);
 		 		int i;
 		 		cout << "Choose the number to add to "; cin >> i;
@@ -187,7 +187,7 @@ void menu(vector<Data> a)
 		 	}
 		 	case '4':
 		 	{
-				system("clear");
+				cout << "\x1B[2J\x1B[H";
 		 		int i;
 		 		wys(a);
 		 		cout << "Which position would you like to delete? : "; cin >> i;
@@ -199,7 +199,7 @@ void menu(vector<Data> a)
 		 	}
 		 	case '5':
 		 	{
-		 		system("clear");
+		 		cout << "\x1B[2J\x1B[H";
 		 		wipe(a);
 		 		break;
 		 	}
@@ -218,6 +218,6 @@ int main()
 {
 	vector<Data> a;
 	menu(a);
-	system("clear");
+	cout << "\x1B[2J\x1B[H";
 	return 0;
 }
