@@ -50,7 +50,7 @@ int N_value_in()							// Setting the N value from the config file
 {											// It is used to determine the size of the table
 	int N;
 	ifstream plik;
-	plik.open("n",ios_base::in);			
+	plik.open("n.txt",ios_base::in);			
 	if(plik.good())							// Checking if the file exists
 	{
 		plik >> N;
@@ -107,8 +107,8 @@ Data read()
 
 void wys(vector<Data> a)
 {
-	cout << "\x1B[2J\x1B[H";
-	for(int i=0;i<N;i++)
+	cout << "\x1B[2J\x1B[H";														// Clears the terminal window 
+	for(int i=0;i<N;i++)															// and sets the pointer to the top left corner
 	{
 		cout << setw(3) << i+1 << ". "<<  a[i].name << " " << a[i].tally << endl;
 	}
@@ -121,7 +121,7 @@ void del(vector<Data>& a,int i)
 	getch();
 }
 
-void wipe(vector<Data> a)
+void wipe(vector<Data> &a)
 {
 	ofstream data,n;
 	data.open("data.txt",ios_base::out);
@@ -136,12 +136,11 @@ void wipe(vector<Data> a)
 	getch();
 }
 
-void menu(vector<Data> a)
+void menu(vector<Data> &a)
 {
 	char c;
 	do
 	{
-		a = read_from_file();
 		cout << "\x1B[2J\x1B[H";
 		cout << "       Menu       " << endl << setw(3) << "1. " << "Display" << endl << "2. " << "Add"
 			 << endl << "3. " << "Add to position " << endl << "4. " << "Delete position." << endl << "5. "
@@ -171,7 +170,6 @@ void menu(vector<Data> a)
 		 		int i = a.size()-1;
 		 		a[i]=read();
 		 		N++;
-		 		save(a);
 		 		break;
 		 	}
 		 	case '3':
@@ -182,7 +180,6 @@ void menu(vector<Data> a)
 		 		cout << "Choose the number to add to "; cin >> i;
 		 		cin.get();			// Resetting the input stream. If not done the EOL char will be passed to the next line
 		 		a[i-1].tally++;
-		 		save(a);
 		 		break;
 		 	}
 		 	case '4':
@@ -194,7 +191,6 @@ void menu(vector<Data> a)
 		 		cin.get();
 		 		del(a,i);
 		 		N--;
-		 		save(a);
 		 		break;
 		 	}
 		 	case '5':
@@ -217,7 +213,9 @@ void menu(vector<Data> a)
 int main()
 {
 	vector<Data> a;
+	a = read_from_file();
 	menu(a);
+	save(a);
 	cout << "\x1B[2J\x1B[H";
 	return 0;
 }
