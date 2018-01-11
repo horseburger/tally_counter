@@ -114,6 +114,13 @@ void wys(vector<Data> a)
 	}
 }
 
+void del(vector<Data>& a,int i)
+{
+	a.erase(a.begin()+i);
+	cout << "Position successfully deleted.";
+	getch();
+}
+
 void wipe(vector<Data> a)
 {
 	ofstream data,n;
@@ -137,7 +144,8 @@ void menu(vector<Data> a)
 		a = read_from_file();
 		system("clear");
 		cout << "       Menu       " << endl << setw(3) << "1. " << "Display" << endl << "2. " << "Add"
-			 << endl << "3. " << "Add to position " << endl << "4. " << "Data wipe " << endl << "5. " << "Quit" << endl;
+			 << endl << "3. " << "Add to position " << endl << "4. " << "Delete position." << endl << "5. "
+			 << "Data wipe " << endl << "6. " << "Quit" << endl;
 		 c=getch();
 		 switch(c)
 		 {
@@ -179,11 +187,23 @@ void menu(vector<Data> a)
 		 	}
 		 	case '4':
 		 	{
+				system("clear");
+		 		int i;
+		 		wys(a);
+		 		cout << "Which position would you like to delete? : "; cin >> i;
+		 		cin.get();
+		 		del(a,i);
+		 		N--;
+		 		save(a);
+		 		break;
+		 	}
+		 	case '5':
+		 	{
 		 		system("clear");
 		 		wipe(a);
 		 		break;
 		 	}
-		 	case '5':
+		 	case '6':
 		 	{
 		 		N_value_out(N);
 		 		c='q';
@@ -196,7 +216,6 @@ void menu(vector<Data> a)
 
 int main()
 {
-	// Data* a = new Data[1024];
 	vector<Data> a;
 	menu(a);
 	system("clear");
