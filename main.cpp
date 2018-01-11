@@ -46,23 +46,23 @@ struct Data
 };
 
 
-int N_value_in()
-{
+int N_value_in()							// Setting the N value from the config file
+{											// It is use to determine the size of the table
 	int N;
 	ifstream plik;
-	plik.open("n",ios_base::in);
-	if(plik.good())
+	plik.open("n",ios_base::in);			
+	if(plik.good())							// Checking if the file exists
 	{
 		plik >> N;
 		plik.close();
 	}
-	else N=0;
+	else N=0;								// If no the the value is set by default to 0
 	return N;
 }
 
 int N = N_value_in();
 
-void N_value_out(int a)
+void N_value_out(int a)						// Saving the N value out to the config file
 {
 	ofstream plik;
 	plik.open("n",ios_base::out);
@@ -70,7 +70,7 @@ void N_value_out(int a)
 	plik.close();
 }
 
-vector<Data> read_from_file()
+vector<Data> read_from_file()				// Inputting the vector from the data in the data.txt file
 {
 	vector<Data> a;
 	ifstream plik;
@@ -85,7 +85,7 @@ vector<Data> read_from_file()
 	return a;
 }
 
-void save(vector<Data> a)
+void save(vector<Data> a)					// Saving the vector to the config file
 {
 	ofstream plik;
 	plik.open("data.txt",ios_base::out);
@@ -99,7 +99,7 @@ void save(vector<Data> a)
 Data read()
 {
 	Data a;
-	cout << "Podaj nazwe: "; cin.getline(a.name,32);
+	cout << "Input name: "; cin.getline(a.name,32);
 	a.tally=0;
 	return a;
 }
@@ -118,7 +118,7 @@ void wipe(vector<Data> a)
 {
 	ofstream data,n;
 	data.open("data.txt",ios_base::out);
-	data << "";
+	data << "";								
 	data.close();
 	for(int i=0;i<N;i++)
 	{
@@ -136,8 +136,8 @@ void menu(vector<Data> a)
 	{
 		a = read_from_file();
 		system("clear");
-		cout << "       Menu       " << endl << setw(3) << "1. " << "Pokaz." << endl << "2. " << "Dodaj."
-			 << endl << "3. " << "Dodaj do numeru. " << endl << "4. " << "Data wipe. " << endl << "5. " << "Wyjdz." << endl;
+		cout << "       Menu       " << endl << setw(3) << "1. " << "Display" << endl << "2. " << "Add"
+			 << endl << "3. " << "Add to position " << endl << "4. " << "Data wipe " << endl << "5. " << "Quit" << endl;
 		 c=getch();
 		 switch(c)
 		 {
@@ -171,8 +171,8 @@ void menu(vector<Data> a)
 		 		system("clear");								
 		 		wys(a);
 		 		int i;
-		 		cout << "Gdzie chcesz dodac: "; cin >> i;
-		 		cin.get();
+		 		cout << "Choose the number to add to "; cin >> i;
+		 		cin.get();			// Resetting the input stream. If not done the EOL char will be passed to the next line
 		 		a[i-1].tally++;
 		 		save(a);
 		 		break;
