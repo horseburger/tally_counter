@@ -116,7 +116,7 @@ void wys(vector<Data> a)
 
 void del(vector<Data>& a,int i)
 {
-	a.erase(a.begin()+i);
+	a.erase(a.begin()+i-1);
 	cout << "Position successfully deleted.";
 	getch();
 }
