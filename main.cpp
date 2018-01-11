@@ -45,6 +45,7 @@ struct Data
 	int tally;
 };
 
+void clear();
 int N_value_in();
 int N = N_value_in();
 void N_value_out(int a);
@@ -55,6 +56,8 @@ void wys(vector<Data> a);
 void del(vector<Data>& a,int i);
 void wipe(vector<Data> &a);
 void menu();
+void sub_menu_add(vector<Data> &a);
+void sub_menu_subtract(vector<Data> &a);
 
 
 
@@ -69,9 +72,9 @@ int main()
 		c=getch();
 		switch(c)
 		{
-		 	case '1':
+		 	case '1':						// Display
 		 	{
-		 		cout << "\x1B[2J\x1B[H";
+		 		clear();
 		 		if(a.size()==0)
 		 		{
 		 			cout << "There's nothing to display.";
@@ -84,43 +87,32 @@ int main()
 		 		}
 		 		break;
 		 	}
-		 	case '2':
+		 	case '2':								// Add new position
 		 	{
-		 		cout << "\x1B[2J\x1B[H";
+		 		clear();
 		 		a.push_back(Data());
 		 		int i = a.size()-1;
 		 		a[i]=read();
 		 		N++;
 		 		break;
 		 	}
-		 	case '3':
+		 	case '3':								// Add to position
 		 	{
-		 		cout << "\x1B[2J\x1B[H";								
-		 		wys(a);
-		 		int i;
-		 		cout << "Choose the number to add to: "; cin >> i;
-		 		cin.get();			// Resetting the input stream. If not done the EOL char will be passed to the next line
-		 		a[i-1].tally++;
+		 		sub_menu_add(a);
 		 		break;
-		 	}
-		 	case '4':
+		 	}							
+		 	case '4':								// Subtract from position
 		 	{
-				cout << "\x1B[2J\x1B[H";
-		 		int i;
-		 		wys(a);
-		 		cout << "Which position would you like to delete? : "; cin >> i;
-		 		cin.get();
-		 		del(a,i);
-		 		N--;
+		 		sub_menu_subtract(a);
 		 		break;
-		 	}
-		 	case '5':
+		 	}					
+		 	case '5':								// Wipe data
 		 	{
-		 		cout << "\x1B[2J\x1B[H";
+		 		clear();
 		 		wipe(a);
 		 		break;
 		 	}
-		 	case '6':
+		 	case '6':								// Quit
 		 	{
 		 		N_value_out(N);
 		 		c='q';
@@ -129,10 +121,14 @@ int main()
 		 }
 	}while(c!='q');
 	save(a);
-	cout << "\x1B[2J\x1B[H";
+	clear();
 	return 0;
 }
 
+void clear()
+{
+	cout << "\x1B[2J\x1B[H";
+}
 
 int N_value_in()							// Setting the N value from the config file
 {											// It is used to determine the size of the table
@@ -192,7 +188,7 @@ Data read()
 
 void wys(vector<Data> a)
 {
-	cout << "\x1B[2J\x1B[H";														// Clears the terminal window 
+	clear();																		// Clears the terminal window 
 	for(int i=0;i<N;i++)															// and sets the pointer to the top left corner
 	{
 		cout << setw(3) << i+1 << ". "<<  a[i].name << " " << a[i].tally << endl;
@@ -203,6 +199,7 @@ void del(vector<Data>& a,int i)
 {
 	a.erase(a.begin()+i-1);
 	cout << "Position successfully deleted.";
+	N--;
 	getch();
 }
 
@@ -223,8 +220,102 @@ void wipe(vector<Data> &a)
 
 void menu()
 {
-	cout << "\x1B[2J\x1B[H";
+	clear();
 	cout << "       Menu       " << endl << setw(3) << "1. " << "Display" << endl << "2. " << "Add"
 		 << endl << "3. " << "Add to position " << endl << "4. " << "Delete position." << endl << "5. "
 		 << "Data wipe " << endl << "6. " << "Quit" << endl;
+}
+
+void sub_menu_add(vector<Data>& a)
+{
+	clear();
+	cout << setw(3) <<  "Select if you'd like to add one or more: " << endl << "1. Add one. " << endl
+		 << "2. Add more. " << endl << "3. Go back.";
+	char c = getch();
+	switch(c)
+	{
+		case '1':
+		{
+			int i;
+			wys(a);
+		 	cout << "Choose the number to add to: "; cin >> i;
+		 	cin.get();			// Resetting the input stream. If not done the EOL char will be passed to the next line
+		 	a[i-1].tally++;
+		 	break;
+		}
+		case '2':
+		{
+			int i,j;
+			wys(a);
+	 		cout << "Choose the number to add to: "; cin >> i;
+			cout << "Define how much you'd like to add: "; cin >> j;
+			cin.get();			// Resetting the input stream. If not done the EOL char will be passed to the next line
+			a[i-1].tally+=j;
+			break;
+		}
+		case '3': break;
+	}
+}
+
+void sub_menu_subtract(vector<Data>& a)
+{
+	clear();
+	cout
+	<< "1. Subtract one from position" << endl << "2. Subtract more from position."
+	<< endl << "3. Delete position" << endl << "4. Go back.";
+	char c = getch();
+	switch(c)
+	{
+		case '1':
+		{
+			clear();
+			int i;
+			wys(a);
+			cout << "Choose position you'd like to subtract from: "; cin >> i;
+			if(a[i-1].tally>0) a[i-1].tally--;
+			else
+			{
+				cout << "The data can't have negative values.";
+				getch();
+				sub_menu_subtract(a);
+				break;
+			}
+			cin.get();
+			break;
+		}
+		case '2':
+		{
+			clear();
+			int i,j;
+			wys(a);
+			cout << "Choose position you'd like to subtract from: "; cin >> i;
+			cout << "How much you'd like to subtract? : "; cin >> j;
+			cin.get();
+			int tmp = a[i-1].tally;
+			for(int k=j;k>=0;k--)
+			{
+				if(a[i-1].tally>=0) a[i-1].tally--;
+				else 
+				{
+					a[i-1].tally=tmp;
+					cout << "The data can't have negative values." << endl << "Restoring to previous value: " << a[i-1].tally;
+					getch();
+					sub_menu_subtract(a);
+					break;
+				}
+			}
+			break;
+		}
+		case '3':
+		{
+			clear();
+			int i;
+			wys(a);
+			cout << "Choose position to delete: "; cin >> i;
+			del(a,i);
+			cin.get();
+			break;
+		}
+		case '4': break;
+	}
 }
