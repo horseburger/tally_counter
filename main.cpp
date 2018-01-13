@@ -263,7 +263,7 @@ void menu()
 {
 	clear();
 	cout << "       Menu       " << endl << setw(3) << "1. " << "Display" << endl << "2. " << "Add"
-		 << endl << "3. " << "Add to position " << endl << "4. " << "Delete position." << endl << "5. "
+		 << endl << "3. " << "Add to position " << endl << "4. " << "Subtract from position." << endl << "5. "
 		 << "Data wipe " << endl << "6. " << "Quit" << endl;
 }
 
