@@ -93,7 +93,7 @@ int main()
 		 		a.push_back(Data());
 		 		int i = a.size()-1;
 		 		a[i]=read();
-		 		N++;
+		 		N++;	
 		 		break;
 		 	}
 		 	case '3':								// Add to position
@@ -114,20 +114,27 @@ int main()
 		 	}
 		 	case '6':								// Quit
 		 	{
-		 		N_value_out(N);
-		 		c='q';
+		 		clear();
+		 		cout << "Save and quit(q)" << endl << "Quit without saving(Q)";
+		 		char z = getch();
+		 		if(z == 'q')
+		 		{
+		 			c='q';
+		 			save(a);
+		 			N_value_out(N);
+		 		}
+		 		else if(z == 'Q') c = 'q';
 		 		break;
 		 	}
 		 }
 	}while(c!='q');
-	save(a);
 	clear();
 	return 0;
 }
 
 void clear()
 {
-	cout << "\x1B[2J\x1B[H";
+	cout << "\x1B[2J\x1B[H";				// Clears the screen and sets the pointer to the left top corner of the terminal
 }
 
 int N_value_in()							// Setting the N value from the config file
@@ -188,10 +195,44 @@ Data read()
 
 void wys(vector<Data> a)
 {
-	clear();																		// Clears the terminal window 
-	for(int i=0;i<N;i++)															// and sets the pointer to the top left corner
+	clear();
+	char c;
+	int i,k=1,l=11;
+	if( N<10 )
 	{
-		cout << setw(3) << i+1 << ". "<<  a[i].name << " " << a[i].tally << endl;
+		for(i=0;i<10;i++)
+		{
+			cout << i+1 << ". " << a[i].name << " " << a[i].tally << endl;
+		}
+	}
+	else
+	{
+		for(i=0;i<10;i++)
+		{
+			cout << i+1 << ". " << a[i].name << " " << a[i].tally << endl;
+		}
+		do
+		{
+			c = getch();
+			if( c != 'q')
+			{
+				if( c == 's' && l<N)
+				{
+					k++;
+					l++;
+				}
+				else if( c == 'w' && k>0)
+				{
+					k--;
+					l--;
+				}
+				clear();
+				for(i=k;i<l;i++)
+				{
+					cout << i+1 << ". " << a[i].name << " " << a[i].tally << endl;
+				}
+			}
+		}while( c != 'q');
 	}
 }
 
