@@ -53,6 +53,7 @@ vector<Data> read_from_file();
 void save(vector<Data> a);
 Data read();
 void wys(vector<Data> a);
+void scroll(vector<Data> a);
 void del(vector<Data>& a,int i);
 void wipe(vector<Data> &a);
 void menu();
@@ -82,8 +83,7 @@ int main()
 		 		}
 		 		else 
 		 		{
-		 			wys(a);
-		 			getch();
+		 			scroll(a);
 		 		}
 		 		break;
 		 	}
@@ -196,8 +196,17 @@ Data read()
 void wys(vector<Data> a)
 {
 	clear();
+	for(int i=0;i<N;i++)
+	{
+		cout << i+1 << ". " << a[i].name << " " << a[i].tally << endl;
+	}
+}
+
+void scroll(vector<Data> a)
+{
+	clear();
 	char c;
-	int i,k=1,l=11;
+	int i,k=0,l=10;
 	if( N<10 )
 	{
 		for(i=0;i<10;i++)
@@ -226,15 +235,16 @@ void wys(vector<Data> a)
 					k--;
 					l--;
 				}
-				clear();
-				for(i=k;i<l;i++)
-				{
-					cout << i+1 << ". " << a[i].name << " " << a[i].tally << endl;
-				}
+			}
+			clear();
+			for(int i=k;i<l;i++)
+			{
+				cout << i+1 << ". " << a[i].name << " " << a[i].tally << endl;
 			}
 		}while( c != 'q');
 	}
 }
+
 
 void del(vector<Data>& a,int i)
 {
