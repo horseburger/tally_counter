@@ -59,6 +59,7 @@ void wipe(vector<Data> &a);
 void menu();
 void sub_menu_add(vector<Data> &a);
 void sub_menu_subtract(vector<Data> &a);
+void modify(vector<Data> &a);
 
 
 
@@ -96,34 +97,31 @@ int main()
 		 		N++;	
 		 		break;
 		 	}
-		 	case '3':								// Add to position
+		 	case '3':								// Modify position
 		 	{
-		 		sub_menu_add(a);
+		 		modify(a);
 		 		break;
-		 	}							
-		 	case '4':								// Subtract from position
-		 	{
-		 		sub_menu_subtract(a);
-		 		break;
-		 	}					
-		 	case '5':								// Wipe data
+		 	}			
+		 	case '4':								// Wipe data
 		 	{
 		 		clear();
 		 		wipe(a);
 		 		break;
 		 	}
-		 	case '6':								// Quit
+		 	case 'q':								// Quit
 		 	{
 		 		clear();
-		 		cout << "Save and quit(q)" << endl << "Quit without saving(Q)";
-		 		char z = getch();
-		 		if(z == 'q')
+		 		char z;
+		 		cout << "Would you like to save?[y/N]   ";
+		 		cin >> z;
+		 		cin.get();
+		 		if(z == 'y' || z == 'Y')
 		 		{
 		 			c='q';
 		 			save(a);
 		 			N_value_out(N);
 		 		}
-		 		else if(z == 'Q') c = 'q';
+		 		else if(z == 'n' || z == 'N') c = 'q';
 		 		break;
 		 	}
 		 }
@@ -273,8 +271,8 @@ void menu()
 {
 	clear();
 	cout << "       Menu       " << endl << setw(3) << "1. " << "Display" << endl << "2. " << "Add"
-		 << endl << "3. " << "Add to position " << endl << "4. " << "Subtract from position." << endl << "5. "
-		 << "Data wipe " << endl << "6. " << "Quit" << endl;
+		 << endl << "3. " << "Modify position. " << endl << "4. "
+			 << "Data wipe " << endl << "Quit. (q)" << endl;
 }
 
 void sub_menu_add(vector<Data>& a)
@@ -368,5 +366,41 @@ void sub_menu_subtract(vector<Data>& a)
 			break;
 		}
 		case '4': break;
+	}
+}
+
+void modify(vector<Data> &a)
+{
+	clear();
+	char c;
+	cout << "1. Add to position." << endl << "2. Subtract from position. " << endl 
+	<< "3. Delete position. " << endl <<"4. Go back. "<<  endl <<"What would you like to do?: ";
+	c = getch();
+	switch(c)
+	{
+		case '1':
+		{
+			sub_menu_add(a);
+			break;
+		}
+		case '2':
+		{
+			sub_menu_subtract(a);
+			break;
+		}
+		case '3':
+		{
+			clear();
+			int i;
+			wys(a);
+			cout << "Choose position to delete: "; cin >> i;
+			del(a,i);
+			cin.get();
+			break;
+		}
+		case '4':
+		{
+			break;
+		}
 	}
 }
