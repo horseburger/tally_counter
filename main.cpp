@@ -207,10 +207,15 @@ void scroll(vector<Data> a)
 	int i,k=0,l=10;
 	if( N<10 )
 	{
-		for(i=0;i<10;i++)
+		do
 		{
-			cout << i+1 << ". " << a[i].name << " " << a[i].tally << endl;
-		}
+			clear();
+			for(i=0;i<N;i++)
+			{
+				cout << i+1 << ". " << a[i].name << " " << a[i].tally << endl;
+			}
+			c = getch();
+		}while(c != 'q');
 	}
 	else
 	{
